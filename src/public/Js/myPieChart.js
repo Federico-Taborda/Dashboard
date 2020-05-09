@@ -7,12 +7,12 @@ let myPieChart = new Chart(ctx, {
         datasets: [{
             data: [0, 0],
             backgroundColor: [
-                "#4cd137",
-                "#e84118"
+                "#e84118",
+                "#4cd137"
             ],
             borderColor: [
-                "#4cd137",
-                "#e84118"
+                "#9c88ff",
+                "#9c88ff"
             ],
             borderWith: 1
         }]
@@ -22,6 +22,10 @@ let myPieChart = new Chart(ctx, {
         maintainAspectRatio: false
     }
 });
+
+// Asigna un tamaño al contenedor del canvas.
+myPieChart.canvas.parentNode.style.height = '300px';
+myPieChart.canvas.parentNode.style.width = '300px';
 
 // Obtiene los datos de la memoria
 async function getMemoryUsage() {
