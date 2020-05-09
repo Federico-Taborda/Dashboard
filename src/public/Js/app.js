@@ -1,3 +1,4 @@
+// Obtiene informacion que no cambiara.
 async function staticInfo() {
     const info = await fetch("/information", {method: "GET"});
     const json = await info.json();
@@ -13,6 +14,7 @@ async function staticInfo() {
     document.getElementById("mac").textContent += json.mac;
 };
 
+// Obtiene los datos de la memoria
 async function getMemoryUsage() {
     const info = await fetch("/memory", {method: "GET"});
     const json = await info.json();
@@ -20,16 +22,18 @@ async function getMemoryUsage() {
     let usageMemory = totalMemory - freeMemory;
 
     /* console.log(Math.round(usageMemory/1024/1024), Math.round(freeMemory/1024/1024)); */
-    data1 = Math.round(usageMemory/1024/1024);
-    data2 = Math.round(freeMemory/1024/1024);
+    let data1 = Math.round(usageMemory/1024/1024);
+    let data2 = Math.round(freeMemory/1024/1024);
+    myPieChart.data.datasets[0].data[0] = data1;
+    myPieChart.data.datasets[0].data[1] = data2;
+    myPieChart.update();
     console.log(data1, data2)
 };
 
 staticInfo();
-setInterval(getMemoryUsage, 1000);
 
-let data1 = 0;
-let data2 = 0;
+// Pide los datos de la memoria cada segundo.
+setInterval(getMemoryUsage, 1000);
 
 let ctx = document.getElementById('myChart');
 let myPieChart = new Chart(ctx, {
@@ -37,7 +41,7 @@ let myPieChart = new Chart(ctx, {
     data: {
         labels: ["Usage", "Not-Usage"],
         datasets: [{
-            data: [data1, data2],
+            data: [0, 0],
             backgroundColor: [
                 "#4cd137",
                 "#e84118"
@@ -50,6 +54,7 @@ let myPieChart = new Chart(ctx, {
         }]
     },
     options: {
+        responsive: true,
         maintainAspectRatio: false
     }
 });
